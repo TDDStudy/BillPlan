@@ -6,6 +6,7 @@ public class Billing {
     private Line line;
     private double basicMonthlyRate;
     private double ratePerAdditionalLine;
+    private double ratePerExcessMinute;
     private double expectedBill;
 
     public Billing() {}
@@ -30,6 +31,29 @@ public class Billing {
         expectedBill = basicMonthlyRate;    // 기본금 추가
         if (line.getCount() > 1) {
             expectedBill += (line.getCount()-1) * ratePerAdditionalLine;    // 라인별 요금 추가
+        }
+
+        return expectedBill;
+    }
+
+    public double getBillIncludingExcessMinutes() {
+        if (line.getCount() > 1) return -1;
+
+        if (line.getPlanType() == GOLD) {
+            basicMonthlyRate = 49.95;
+            ratePerExcessMinute = 0.45;
+            expectedBill = basicMonthlyRate;
+            if (line.getUsedTime() > 1000) {
+                expectedBill += (line.getUsedTime()-1000) * ratePerExcessMinute;
+            }
+        }
+        else {
+            basicMonthlyRate = 29.95;
+            ratePerExcessMinute = 0.54;
+            expectedBill = basicMonthlyRate;
+            if (line.getUsedTime() > 500) {
+                expectedBill += (line.getUsedTime()-500) * ratePerExcessMinute;
+            }
         }
 
         return expectedBill;
