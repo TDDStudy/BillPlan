@@ -22,4 +22,14 @@ public class LineTest {
     public void getName_test() {
         Assert.assertEquals("Seungwon", line.getName());
     }
+
+    @Test
+    public void getPlanType_test() {
+        Assert.assertEquals(GOLD, line.getPlanType());
+    }
+
+    @Test
+    public void getCount_test() {
+        Assert.assertEquals(3, line.getCount());
+    }
 }

@@ -25,4 +25,13 @@ public class Line {
     public String getName() {
         return this.name;
     }
+    public PlanType getPlanType() {
+        return this.planType;
+    }
+    public int getCount() {
+        return this.count;
+    }
+    public int getUsedTime() {
+        return this.usedTime;
+    }
 }
