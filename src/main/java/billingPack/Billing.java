@@ -15,6 +15,8 @@ public class Billing {
     }
 
     public double getExpectedSimpleBill() {
+        double additionalFee = 0.0;
+
         if (this.line == null)
             return -1;
         else if (line.getPlanType() == GOLD) {
@@ -28,41 +30,51 @@ public class Billing {
             ratePerAdditionalLine = 21.50;
         }
 
-        expectedBill = basicMonthlyRate;    // 기본금 추가
-        if (line.getCount() > 1) {
-            expectedBill += (line.getCount()-1) * ratePerAdditionalLine;    // 라인별 요금 추가
+//        expectedBill = basicMonthlyRate;    // 기본금 추가
+        if (line.getCount() >= 1 && line.getCount() < 4) {
+            // if count is 2..3
+            additionalFee += (line.getCount()-1) * ratePerAdditionalLine;    // 라인별 요금 추가
+        }
+        else {
+            // if count >= 4
+            additionalFee += 2*ratePerAdditionalLine;
         }
 
-        return expectedBill;
+        return basicMonthlyRate + additionalFee;
     }
 
     public double getBillIncludingExcessMinutes() {
-        if (line.getCount() > 1) return -1;
+        double additionalFee = 0.0;
+
+//        if (line.getCount() > 1) return -1;
 
         if (line.getPlanType() == GOLD) {
             basicMonthlyRate = 49.95;
             ratePerExcessMinute = 0.45;
-            expectedBill = basicMonthlyRate;
+//            expectedBill = basicMonthlyRate;
             if (line.getUsedTime() > 1000) {
-                expectedBill += (line.getUsedTime()-1000) * ratePerExcessMinute;
+                additionalFee += (line.getUsedTime()-1000) * ratePerExcessMinute;
             }
         }
         else {
             basicMonthlyRate = 29.95;
             ratePerExcessMinute = 0.54;
-            expectedBill = basicMonthlyRate;
+//            expectedBill = basicMonthlyRate;
             if (line.getUsedTime() > 500) {
-                expectedBill += (line.getUsedTime()-500) * ratePerExcessMinute;
+                additionalFee += (line.getUsedTime()-500) * ratePerExcessMinute;
             }
         }
 
-        return expectedBill;
+        return additionalFee;
     }
 
 
     public double getBillIncludingFamilyDiscount() {
+        double additionalFee = 0.0;
+
         if (line.getCount() < 4) {
-            return getExpectedSimpleBill();
+//            return getExpectedSimpleBill();
+            return 0;
         }
 
         int BeneficiaryCount = line.getCount()-3;   // 가족 할인 수혜 대상 인원
@@ -70,13 +82,21 @@ public class Billing {
         if (line.getPlanType() == GOLD) {
             basicMonthlyRate = 49.95;
             ratePerAdditionalLine = 14.50;
-            expectedBill = basicMonthlyRate + (2*ratePerAdditionalLine) + (BeneficiaryCount*5);    // 라인별 요금 추가
+//            expectedBill = basicMonthlyRate;
+            additionalFee += /*(2*ratePerAdditionalLine)*/ + (BeneficiaryCount*5);    // 라인별 요금 추가
         }
         else {
             basicMonthlyRate = 29.95;
             ratePerAdditionalLine = 21.50;
-            expectedBill = basicMonthlyRate + (2*ratePerAdditionalLine) + (BeneficiaryCount*5);    // 라인별 요금 추가
+//            expectedBill = basicMonthlyRate;
+            additionalFee += /*(2*ratePerAdditionalLine)*/ + (BeneficiaryCount*5);    // 라인별 요금 추가
         }
+
+        return additionalFee;
+    }
+
+    public double getCompleteBill() {
+        expectedBill = getExpectedSimpleBill() + getBillIncludingExcessMinutes() + getBillIncludingFamilyDiscount();
 
         return expectedBill;
     }
