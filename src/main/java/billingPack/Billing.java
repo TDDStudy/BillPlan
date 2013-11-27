@@ -58,4 +58,26 @@ public class Billing {
 
         return expectedBill;
     }
+
+
+    public double getBillIncludingFamilyDiscount() {
+        if (line.getCount() < 4) {
+            return getExpectedSimpleBill();
+        }
+
+        int BeneficiaryCount = line.getCount()-3;   // 가족 할인 수혜 대상 인원
+
+        if (line.getPlanType() == GOLD) {
+            basicMonthlyRate = 49.95;
+            ratePerAdditionalLine = 14.50;
+            expectedBill = basicMonthlyRate + (2*ratePerAdditionalLine) + (BeneficiaryCount*5);    // 라인별 요금 추가
+        }
+        else {
+            basicMonthlyRate = 29.95;
+            ratePerAdditionalLine = 21.50;
+            expectedBill = basicMonthlyRate + (2*ratePerAdditionalLine) + (BeneficiaryCount*5);    // 라인별 요금 추가
+        }
+
+        return expectedBill;
+    }
 }

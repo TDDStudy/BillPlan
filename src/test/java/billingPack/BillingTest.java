@@ -80,4 +80,34 @@ public class BillingTest {
         billing = new Billing(new Line("seungwon", SILVER, 1, 520));
         Assert.assertEquals(40.75, billing.getBillIncludingExcessMinutes(), 2);
     }
+
+    @Test
+    public void calculateFamilyDiscount_gold_2line() {
+        billing = new Billing(new Line("seungwon", GOLD, 2, 999));
+        Assert.assertEquals(64.45, billing.getBillIncludingFamilyDiscount(), 2);
+    }
+
+    @Test
+    public void calculateFamilyDiscount_gold_3line() {
+        billing = new Billing(new Line("seungwon", GOLD, 3, 999));
+        Assert.assertEquals(78.95, billing.getBillIncludingFamilyDiscount(), 3);
+    }
+
+    @Test
+    public void calculateFamilyDiscount_gold_4line() {
+        billing = new Billing(new Line("seungwon", GOLD, 4, 999));
+        Assert.assertEquals(83.95, billing.getBillIncludingFamilyDiscount(), 2);
+    }
+
+    @Test
+    public void calculateFamilyDiscount_silver_4line() {
+        billing = new Billing(new Line("seungwon", SILVER, 4, 499));
+        Assert.assertEquals(77.95, billing.getBillIncludingFamilyDiscount(), 2);
+    }
+
+    @Test
+    public void calculateFamilyDiscount_silver_5line() {
+        billing = new Billing(new Line("seungwon", SILVER, 5, 499));
+        Assert.assertEquals(82.95, billing.getBillIncludingFamilyDiscount(), 2);
+    }
 }
