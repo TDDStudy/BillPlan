@@ -22,4 +22,7 @@ public class Line {
         this.usedTime = uTime;
     }
 
+    public String getName() {
+        return this.name;
+    }
 }
