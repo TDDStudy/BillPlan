@@ -1,12 +1,7 @@
 package billingPack;
 
-/**
- * Created with IntelliJ IDEA.
- * User: seung-wongim
- * Date: 2013. 11. 27.
- * Time: 오후 8:53
- * To change this template use File | Settings | File Templates.
- */
+import static billingPack.PlanType.*;
+
 public class Billing {
     private Line line;
     private double basicMonthlyRate;
@@ -19,6 +14,24 @@ public class Billing {
     }
 
     public double getExpectedSimpleBill() {
+        if (this.line == null)
+            return -1;
+        else if (line.getPlanType() == GOLD) {
+            // PlanType is Gold
+            basicMonthlyRate = 49.95;
+            ratePerAdditionalLine = 14.50;
+        }
+        else {
+            // PlanType is Silver
+            basicMonthlyRate = 29.95;
+            ratePerAdditionalLine = 21.50;
+        }
+
+        expectedBill = basicMonthlyRate;    // 기본금 추가
+        if (line.getCount() > 1) {
+            expectedBill += (line.getCount()-1) * ratePerAdditionalLine;    // 라인별 요금 추가
+        }
+
         return expectedBill;
     }
 }
