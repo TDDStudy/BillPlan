@@ -1,2 +1,2 @@
 /** public package. */
-package billingpack;
+package billingPack;
