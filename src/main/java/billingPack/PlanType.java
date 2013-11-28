@@ -1,4 +1,4 @@
-package billingPack;
+package billingpack;
 
 /**
  * Created with IntelliJ IDEA.

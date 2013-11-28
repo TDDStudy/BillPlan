@@ -1,10 +1,10 @@
-package billingPack;
+package billingpack;
 
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import static billingPack.PlanType.GOLD;
+import static billingpack.PlanType.GOLD;
 
 /**
  * Created with IntelliJ IDEA.
